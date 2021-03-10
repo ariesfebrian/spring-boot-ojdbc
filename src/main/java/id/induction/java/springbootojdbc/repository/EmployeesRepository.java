@@ -16,4 +16,14 @@ public interface EmployeesRepository extends JpaRepository<Employees, Integer> {
 
     @Query(name = "SELECT * FROM EMPLOYEES WHERE MANAGER_ID = :managerId AND job_id = :jobId", nativeQuery = true)
     List<Employees> getEmployeeByManagerIdAndJobId(Integer managerId, String jobId);
+
+    @Query(value = "SELECT e.* FROM EMPLOYEES e LEFT JOIN DEPARTMENTS d ON d.DEPARTMENT_ID = e.DEPARTMENT_ID", nativeQuery = true)
+    List<Employees> leftJoin();
+
+    @Query(value = "SELECT e.* FROM EMPLOYEES e RIGHT JOIN DEPARTMENTS d ON d.DEPARTMENT_ID = e.DEPARTMENT_ID", nativeQuery = true)
+    List<Employees> rightJoin();
+
+    @Query(value = "SELECT e.* FROM EMPLOYEES e FULL OUTER JOIN DEPARTMENTS d ON d.DEPARTMENT_ID = e.DEPARTMENT_ID " +
+            "WHERE e.FIRST_NAME IS NULL OR e.DEPARTMENT_ID IS NULL", nativeQuery = true)
+    List<Employees> fullOuterJoin();
 }

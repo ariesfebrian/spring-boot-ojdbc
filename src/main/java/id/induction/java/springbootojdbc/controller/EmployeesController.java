@@ -2,6 +2,7 @@ package id.induction.java.springbootojdbc.controller;
 
 import id.induction.java.springbootojdbc.model.entity.Employees;
 import id.induction.java.springbootojdbc.model.request.DepartmentAndSalaryRequest;
+import id.induction.java.springbootojdbc.model.request.EmployeeRequest;
 import id.induction.java.springbootojdbc.model.request.ManagerIdAndJobIdRequest;
 import id.induction.java.springbootojdbc.service.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,30 @@ public class EmployeesController {
     @PostMapping("/list-hired-date-job")
     public List<Employees> listEmployeeByManagerIdAndJobId(@RequestBody ManagerIdAndJobIdRequest request){
         return employeesService.getEmployeeByManagerIdAndJobId(request);
+    }
+
+    @PostMapping("/update/{employeeId}")
+    public void update(@PathVariable Integer employeeId, @RequestBody EmployeeRequest request){
+        employeesService.updateEmployee(employeeId, request);
+    }
+
+    @PostMapping("/delete/{employeeId}")
+    public void delete(@PathVariable Integer employeeId){
+        employeesService.deleteEmployee(employeeId);
+    }
+
+    @GetMapping("/list-left-join")
+    public List<Employees> listAllLeftJoin(){
+        return employeesService.getEmployeeAndDepartmentNameWithLeftJoin();
+    }
+
+    @GetMapping("/list-right-join")
+    public List<Employees> listAllRightJoin(){
+        return employeesService.getAllFullNameAndDepartmentNameWithRightJoin();
+    }
+
+    @GetMapping("/list-full-outer-join")
+    public List<Employees> listAllFullOuterJoin(){
+        return employeesService.getAllFullNameAndDepartmentNameWithFullOuterJoin();
     }
 }
